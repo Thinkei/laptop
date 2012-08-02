@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+***REMOVED***
 
 echo "Installing Ruby 1.9.2 stable and making it the default Ruby ..."
   rvm install 1.9.2-p290
