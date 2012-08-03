@@ -1,4 +1,0 @@
-***REMOVED***
-
-echo "Installing the heroku-con***REMOVED***g plugin for pulling con***REMOVED***g variables locally to be used as ENV variables ..."
-  heroku plugins:install git://github.com/ddollar/heroku-con***REMOVED***g.git
