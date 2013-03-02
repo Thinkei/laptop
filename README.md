@@ -28,7 +28,6 @@ Run the script:
 What it sets up
 ---------------
 
-* Ack for ***REMOVED***nding things in ***REMOVED***les
 * Bundler gem for managing Ruby libraries
 * Exuberant Ctags for indexing ***REMOVED***les for vim tab completion
 * Foreman gem for serving Rails apps locally
@@ -46,6 +45,7 @@ What it sets up
 * Ruby Build for installing Rubies
 * Ruby stable for writing general-purpose code
 * SSH public key for authenticating with Github and Heroku
+* The Silver Searcher for ***REMOVED***nding things in ***REMOVED***les
 * Tmux for saving project state and switching between projects
 * Watch for periodically executing a program and displaying the output
 
