@@ -1,21 +1,28 @@
-#!/usr/bin/env bash
-CLEAR="\033[0m"
-ORANGE="\033[33m"
+***REMOVED***
+### end common-components/sh-shebang
+
+# Welcome to the thoughtbot laptop script! Be prepared to turn your laptop (or
+# desktop, no haters here) into an awesome development machine.
+
+# This ***REMOVED***le is auto-generated. Do not edit it by hand unless you know what
+# you're doing. Please see 'CONTRIBUTING.md' for more information.
+### end common-components/header
 
 successfully() {
-  $* || (echo "failed" 1>&2 && exit 1)
+  $* || (echo "\nfailed" 1>&2 && exit 1)
 ***REMOVED***
 
 ***REMOVED***
-  echo -e ${ORANGE***REMOVED***$1${CLEAR***REMOVED***
-  echo
+  echo "\n$1"
 ***REMOVED***
+### end common-components/shared-functions
 
-if lsb_release -c | grep -qEv 'precise|quantal|wheezy|raring|jessie'
+if ! grep -qiE 'precise|quantal|wheezy|raring|jessie' /etc/os-release
 then
   fancy_echo "Sorry! we don't currently support that distro."
-  exit;
+  exit 1
 ***REMOVED***
+### end linux-components/distro-check
 
 fancy_echo "Updating system packages ..."
   if command -v aptitude >/dev/null; then
@@ -26,6 +33,7 @@ fancy_echo "Updating system packages ..."
 ***REMOVED***
   successfully sudo aptitude update
   successfully sudo aptitude -y dist-upgrade
+### end linux-components/debian-package-update
 
 fancy_echo "Installing curl ..."
   successfully sudo aptitude install -y curl
@@ -38,3 +46,5 @@ fancy_echo "Changing your shell to zsh ..."
 
 fancy_echo "Your shell will now restart to apply changes."
   exec `which zsh` -l
+### end linux-components/debian-prerequisites
+
