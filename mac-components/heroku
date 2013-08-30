@@ -1,5 +1,5 @@
 fancy_echo "Installing Heroku CLI client ..."
-  successfully brew install heroku-toolbelt
+  brew install heroku-toolbelt
 
 fancy_echo "Installing the heroku-con***REMOVED***g plugin to pull con***REMOVED***g variables locally to be used as ENV variables ..."
-  successfully heroku plugins:install git://github.com/ddollar/heroku-con***REMOVED***g.git
+  heroku plugins:install git://github.com/ddollar/heroku-con***REMOVED***g.git
