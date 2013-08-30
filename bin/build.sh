@@ -1,18 +1,16 @@
 ***REMOVED***
 
 for MANIFEST in Manifest.*; do
-  FILENAME=`echo -n "$MANIFEST" | sed s/Manifest\.//`
-  rm -f $FILENAME
+  FILENAME=$(printf "$MANIFEST" | sed s/Manifest\.//)
+  rm -f "$FILENAME"
 
-  echo "\nBuilding $MANIFEST into $FILENAME"
+  printf "\nBuilding $MANIFEST into $FILENAME\n"
 
-  for ***REMOVED***le in `cat $MANIFEST`; do
-    echo "Including: $***REMOVED***le"
+  while read ***REMOVED***le; do
+    printf "Including: $***REMOVED***le\n"
 
-    cat $***REMOVED***le >> $FILENAME
+    cat "$***REMOVED***le" >> "$FILENAME"
 
-    echo "### end $***REMOVED***le\n" >> $FILENAME
-  done
-
-  chmod 755 $FILENAME
+    printf "### end $***REMOVED***le\n\n" >> "$FILENAME"
+  done < "$MANIFEST"
 done
