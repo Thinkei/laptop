@@ -14,7 +14,7 @@
 ### end common-components/exit-trap
 
 ***REMOVED***
-  echo "\n$1"
+  printf "\n%b\n" "$1"
 ***REMOVED***
 ### end common-components/shared-functions
 

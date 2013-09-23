@@ -24,7 +24,7 @@ if [[ ":$PATH:" != *":$HOME/.bin:"* ]]; then
 ### end common-components/check-home-bin
 
 ***REMOVED***
-  echo "\n$1"
+  printf "\n%b\n" "$1"
 ***REMOVED***
 ### end common-components/shared-functions
 
