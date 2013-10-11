@@ -22,8 +22,8 @@ rendered `linux`, `linux-preqrequisites`, or `mac` ***REMOVED***les. `git diff` 
 friend - check the output. If it looks as expected, commit the rendered
 installation ***REMOVED***les.
 
-4) A reminder: be extra sure to render the installation ***REMOVED***les before issuing a
-pull request.
+4) A reminder: be extra sure to render the installation ***REMOVED***les before
+issuing a pull request.
 
 Supporting additional distros or operating systems
 ==================================================

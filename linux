@@ -138,3 +138,9 @@ fancy_echo "Installing the heroku-con***REMOVED***g plugin to pull con***REMOVED
   heroku plugins:install git://github.com/ddollar/heroku-con***REMOVED***g.git
 ### end linux-components/heroku
 
+fancy_echo "Installing rcm, to manage your dot***REMOVED***les ..."
+  wget -O /tmp/rcm_1.1.0_all.deb http://mike-burns.com/project/rcm/rcm_1.1.0_all.deb
+  sudo dpkg -i /tmp/rcm_1.1.0_all.deb
+  rm -f /tmp/rcm_1.1.0_all.deb
+### end linux-components/rcm
+

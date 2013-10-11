@@ -1,0 +1,3 @@
+fancy_echo "Installing rcm, to manage your dot***REMOVED***les ..."
+  brew tap mike-burns/rcm
+  brew install rcm
