@@ -2,6 +2,10 @@
 ***REMOVED***
 ***REMOVED***
 
+***REMOVED***
+  touch $HOME/.zshrc
+***REMOVED***
+
 if [[ ":$PATH:" != *":$HOME/.bin:"* ]]; then
   echo 'export PATH="$HOME/.bin:$PATH"' >> ~/.zshrc
   source ~/.zshrc
