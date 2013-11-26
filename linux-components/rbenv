@@ -8,7 +8,8 @@ if [[ ! -d "$HOME/.rbenv" ]]; then
       echo 'eval "$(rbenv init - --no-rehash)"' >> ~/.zshrc
 ***REMOVED***
 
-    source ~/.zshrc
+    export PATH="$HOME/.rbenv/bin:$PATH"
+  ***REMOVED***
 ***REMOVED***
 
 if [[ ! -d "$HOME/.rbenv/plugins/rbenv-gem-rehash" ]]; then
