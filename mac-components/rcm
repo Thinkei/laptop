@@ -1,3 +1,3 @@
 fancy_echo "Installing rcm, to manage your dot***REMOVED***les ..."
-  brew tap thoughtbot/rcm
+  brew tap thoughtbot/formulae
   brew install rcm
