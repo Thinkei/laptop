@@ -1,0 +1,7 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.con***REMOVED***gure('2') do |con***REMOVED***g|
+  box_name = "ubuntu-13-10"
+  con***REMOVED***g.vm.box = box_name
+  con***REMOVED***g.vm.box_url = "https://laptop-boxes.s3.amazonaws.com/#{box_name***REMOVED***.box"
+end
