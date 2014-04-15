@@ -1,3 +1,5 @@
 *.swp
 .vagrant
 Vagrant***REMOVED***le
+*.box
+test/succeeded*
