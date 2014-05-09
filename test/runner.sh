@@ -54,6 +54,9 @@ for vagrant***REMOVED***le in test/Vagrant***REMOVED***le.*; do
   vagrant ssh -c 'zsh -i -l -c "cd ~/test_app && rake db:create db:migrate db:test:prepare"' \
     || failure "$vagrant***REMOVED***le :: Could not successfully initialize databases and migrate"
 
+  vagrant ssh -c 'zsh -i -l -c "command -v ag"' \
+    || failure "$vagrant***REMOVED***le :: ag was not installed"
+
   vagrant ssh -c 'zsh -i -l -c "rm -Rf ~/test_app"'
   vagrant ssh -c 'zsh -i -l -c "sudo aptitude clean"'
 
@@ -61,7 +64,7 @@ for vagrant***REMOVED***le in test/Vagrant***REMOVED***le.*; do
     failure_message "$vagrant***REMOVED***le :: The automated tests failed. Please look for error messages above"
 ***REMOVED***
     message "$vagrant***REMOVED***le tests succeeded"
-    if [ -n "$PACKAGE_BOXES" ];
+    if [ -n "$PACKAGE_BOXES" ]; then
       package_box
 ***REMOVED***
 ***REMOVED***
