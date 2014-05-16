@@ -92,7 +92,7 @@ We now publish [vagrant](http://vagrantup.com) boxes for every supported linux
 distro. These boxes have the laptop script applied already and are ready to go.
 Getting started is as easy as creating a Vagrant***REMOVED***le that looks like:
 
-    Vagrant.con***REMOVED***gure('2') do
+    Vagrant.con***REMOVED***gure('2') do |con***REMOVED***g|
       con***REMOVED***g.vm.box = 'thoughtbot/ubuntu-14-04-server-with-laptop'
     end
 
