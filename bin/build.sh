@@ -13,6 +13,4 @@ for MANIFEST in Manifest.*; do
 
     printf "### end $***REMOVED***le\n\n" >> "$FILENAME"
   done < "$MANIFEST"
-
-  chmod 755 "$FILENAME"
 done
