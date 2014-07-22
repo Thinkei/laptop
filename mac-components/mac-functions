@@ -1,7 +1,16 @@
 brew_install_or_upgrade() {
   if brew list -1 | grep -Fqx "$1"; then
-    (brew upgrade "$@") || true
+    if brew_is_upgradable "$1"; then
+      brew upgrade "$@"
+***REMOVED***
 ***REMOVED***
     brew install "$@"
 ***REMOVED***
+***REMOVED***
+
+brew_is_upgradable() {
+  local INSTALLED=$(brew ls --versions "$1" | awk '{print $NF***REMOVED***')
+  local LATEST=$(brew info "$1" 2>/dev/null | head -1 | awk '{gsub(/,/, ""); print $3***REMOVED***')
+
+  [ "$INSTALLED" != "$LATEST" ]
 ***REMOVED***
