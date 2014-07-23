@@ -1,13 +1,17 @@
 brew_install_or_upgrade() {
-  local NAME=$(brew_expand_alias "$1")
-
-  if brew list -1 | grep -Fqx $NAME; then
+  if brew_is_installed "$1"; then
     if brew_is_upgradable "$1"; then
       brew upgrade "$@"
 ***REMOVED***
 ***REMOVED***
     brew install "$@"
 ***REMOVED***
+***REMOVED***
+
+***REMOVED***
+  local NAME=$(brew_expand_alias "$1")
+
+  brew list -1 | grep -Fqx "$NAME"
 ***REMOVED***
 
 brew_is_upgradable() {
