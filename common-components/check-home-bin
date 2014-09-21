@@ -3,7 +3,7 @@ if [[ ! -d "$HOME/.bin/" ]]; then
 ***REMOVED***
 
 ***REMOVED***
-  touch $HOME/.zshrc
+***REMOVED***
 ***REMOVED***
 
 if [[ ":$PATH:" != *":$HOME/.bin:"* ]]; then
