@@ -6,7 +6,4 @@ if [[ ! -d "$HOME/.bin/" ]]; then
 ***REMOVED***
 ***REMOVED***
 
-if [[ ":$PATH:" != *":$HOME/.bin:"* ]]; then
-  printf 'export PATH="$HOME/.bin:$PATH"\n' >> ~/.zshrc
-  export PATH="$HOME/.bin:$PATH"
-***REMOVED***
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"\n'

@@ -21,14 +21,25 @@ if [[ ! -d "$HOME/.bin/" ]]; then
 ***REMOVED***
 ***REMOVED***
 
-if [[ ":$PATH:" != *":$HOME/.bin:"* ]]; then
-  printf 'export PATH="$HOME/.bin:$PATH"\n' >> ~/.zshrc
-  export PATH="$HOME/.bin:$PATH"
-***REMOVED***
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"\n'
 ### end common-components/check-home-bin
 
 ***REMOVED***
   printf "\n%b\n" "$1"
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+
+  if [[ -w "$HOME/.zshrc.local" ]]; then
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+    printf "%s\n" "$text" >> "$zshrc"
+***REMOVED***
 ***REMOVED***
 ### end common-components/shared-functions
 
@@ -122,10 +133,8 @@ if [[ ! -d "$HOME/.rbenv" ]]; then
   fancy_echo "Installing rbenv, to change Ruby versions ..."
     git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 
-    if ! grep -qs "rbenv init" ~/.zshrc; then
-      printf 'export PATH="$HOME/.rbenv/bin:$PATH"\n' >> ~/.zshrc
-      printf 'eval "$(rbenv init - zsh --no-rehash)"\n' >> ~/.zshrc
-***REMOVED***
+    append_to_zshrc 'export PATH="$HOME/.rbenv/bin:$PATH"\n'
+    append_to_zshrc 'eval "$(rbenv init - zsh --no-rehash)"\n'
 
     export PATH="$HOME/.rbenv/bin:$PATH"
     eval "$(rbenv init - zsh)"

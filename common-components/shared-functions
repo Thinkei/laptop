@@ -1,3 +1,17 @@
 ***REMOVED***
   printf "\n%b\n" "$1"
 ***REMOVED***
+
+***REMOVED***
+***REMOVED***
+
+  if [[ -w "$HOME/.zshrc.local" ]]; then
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+    printf "%s\n" "$text" >> "$zshrc"
+***REMOVED***
+***REMOVED***
