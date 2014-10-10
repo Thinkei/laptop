@@ -6,4 +6,4 @@ if [[ ! -d "$HOME/.bin/" ]]; then
 ***REMOVED***
 ***REMOVED***
 
-append_to_zshrc 'export PATH="$HOME/.bin:$PATH"\n'
+***REMOVED***

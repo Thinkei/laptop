@@ -2,8 +2,8 @@
   fancy_echo "Installing Homebrew, a good OS X package manager ..."
     ruby <(curl -fsS https://raw.githubusercontent.com/Homebrew/install/master/install)
 
-    append_to_zshrc '\n# recommended by brew doctor\n'
-    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"\n'
+***REMOVED***
+***REMOVED***
 ***REMOVED***
 ***REMOVED***
   fancy_echo "Homebrew already installed. Skipping ..."

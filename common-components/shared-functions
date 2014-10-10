@@ -4,6 +4,7 @@
 
 ***REMOVED***
 ***REMOVED***
+  local skip_new_line="$2"
 
   if [[ -w "$HOME/.zshrc.local" ]]; then
 ***REMOVED***
@@ -12,6 +13,10 @@
 ***REMOVED***
 
 ***REMOVED***
-    printf "%s\n" "$text" >> "$zshrc"
+    if (( skip_new_line )); then
+      printf "%s\n" "$text" >> "$zshrc"
+***REMOVED***
+      printf "\n%s\n" "$text" >> "$zshrc"
+***REMOVED***
 ***REMOVED***
 ***REMOVED***
