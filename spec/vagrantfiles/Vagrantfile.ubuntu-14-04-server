@@ -1,9 +1,0 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-Vagrant.con***REMOVED***gure('2') do |con***REMOVED***g|
-  name = 'ubuntu-14-04-server'
-  con***REMOVED***g.vm.box = "thoughtbot/#{name***REMOVED***"
-  con***REMOVED***g.vm.provider :virtualbox do |virtualbox|
-    virtualbox.name = "laptop-#{name***REMOVED***"
-  end
-end

@@ -1,3 +1,0 @@
-fancy_echo "Con***REMOVED***guring Bundler for faster, parallel gem installation ..."
-  number_of_cores=$(nproc)
-***REMOVED*** con***REMOVED***g --global jobs $((number_of_cores - 1))

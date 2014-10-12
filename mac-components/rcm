@@ -1,7 +1,0 @@
-if ! command -v rcup >/dev/null; then
-  fancy_echo "Installing rcm, to manage your dot***REMOVED***les ..."
-    brew tap thoughtbot/formulae
-    brew_install_or_upgrade 'rcm'
-***REMOVED***
-  fancy_echo "rcm already installed. Skipping ..."
-***REMOVED***
