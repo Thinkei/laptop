@@ -143,5 +143,6 @@ brew install shellcheck
 License
 -------
 
-Laptop is © 2011-2014 thoughtbot, inc. It is free software, and may be
-redistributed under the terms speci***REMOVED***ed in the LICENSE ***REMOVED***le.
+Laptop is © 2011-2015 thoughtbot, inc.
+ It is free software,
+and may be redistributed under the terms speci***REMOVED***ed in the LICENSE ***REMOVED***le.
