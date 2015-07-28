@@ -29,14 +29,18 @@ less mac
 sh mac 2>&1 | tee ~/laptop.log
 ```
 
+Optionally, [install thoughtbot/dot***REMOVED***les][dot***REMOVED***les].
+
+[dot***REMOVED***les]: https://github.com/thoughtbot/dot***REMOVED***les#install
+
 Debugging
 ---------
 
-Your last Laptop run will be saved to `~/laptop.log`. Read through it to see if
-you can debug the issue yourself. If not, copy the lines where the script
-failed into a [new GitHub
-Issue](https://github.com/thoughtbot/laptop/issues/new) for us. Or, attach the
-whole log ***REMOVED***le as an attachment.
+Your last Laptop run will be saved to `~/laptop.log`.
+Read through it to see if you can debug the issue yourself.
+If not, copy the lines where the script failed into a
+[new GitHub Issue](https://github.com/thoughtbot/laptop/issues/new) for us.
+Or, attach the whole log ***REMOVED***le as an attachment.
 
 What it sets up
 ---------------
