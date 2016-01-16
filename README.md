@@ -141,6 +141,11 @@ For example:
 brew_install_or_upgrade 'go'
 brew_install_or_upgrade 'ngrok'
 brew_install_or_upgrade 'watch'
+
+if [ -r "$HOME/.rcrc" ]; then
+  fancy_echo "Updating dot***REMOVED***les ..."
+  rcup
+***REMOVED***
 ```
 
 Write your customizations such that they can be run safely more than once.
