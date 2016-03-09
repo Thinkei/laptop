@@ -130,9 +130,26 @@ For example:
 ***REMOVED***
 
 brew bundle --***REMOVED***le=- <<***REMOVED***
+brew "Caskroom/cask/dockertoolbox"
 brew "go"
 brew "ngrok"
 brew "watch"
+***REMOVED***
+
+default_docker_machine() {
+  docker-machine ls | grep -Fq "default"
+***REMOVED***
+
+if ! default_docker_machine; then
+  docker-machine create --driver virtualbox default
+***REMOVED***
+
+default_docker_machine_running() {
+  default_docker_machine | grep -Fq "Running"
+***REMOVED***
+
+if ! default_docker_machine_running; then
+  docker-machine start default
 ***REMOVED***
 
 fancy_echo "Cleaning up old Homebrew formulae ..."
