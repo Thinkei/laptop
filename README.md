@@ -95,13 +95,14 @@ Testing tools:
 [Qt 5]: http://qt-project.org/
 [Capybara Webkit]: https://github.com/thoughtbot/capybara-webkit
 
-Programming languages and con***REMOVED***guration:
+Programming languages, package managers, and con***REMOVED***guration:
 
 * [Bundler] for managing Ruby libraries
 * [Node.js] and [NPM], for running apps and installing JavaScript packages
 * [Rbenv] for managing versions of Ruby
 * [Ruby Build] for installing Rubies
 * [Ruby] stable for writing general-purpose code
+* [Yarn] for managing JavaScript packages
 
 [Bundler]: http://bundler.io/
 [ImageMagick]: http://www.imagemagick.org/
@@ -110,6 +111,7 @@ Programming languages and con***REMOVED***guration:
 [Rbenv]: https://github.com/sstephenson/rbenv
 [Ruby Build]: https://github.com/sstephenson/ruby-build
 [Ruby]: https://www.ruby-lang.org/en/
+[Yarn]: https://yarnpkg.com/en/
 
 Databases:
 
