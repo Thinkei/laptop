@@ -1,5 +1,5 @@
 ## EH Starter Kit
-A script to set up a macOS laptop for web and development at Employment Hero. This script is inspired ans based on Thoughtbot/Laptop script.
+A script to set up a macOS laptop for web development at Employment Hero. This script is inspired ans based on Thoughtbot/Laptop script.
 
 It can be run multiple times on the same machine safely. It installs, upgrades, or skips packages based on what is already installed on the machine.
 
