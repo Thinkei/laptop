@@ -179,3 +179,11 @@ can be used in your `~/.laptop.local`.
 
 We will create the [wiki](https://github.com/Thinkei/eh-starter-kit/wiki)
 for more customization examples.
+
+ToDo List:
+----------
+
+- [ ] Support mobile development
+- [ ] Support pulling microservice
+- [ ] Add Prezto / Oh-my-zsh as default
+- [ ] ...
