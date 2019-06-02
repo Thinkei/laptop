@@ -8,7 +8,7 @@ Requirements
 
 Make sure you can connect to GitHub using SSH. Checkout this for instruction: https://help.github.com/en/articles/connecting-to-github-with-ssh
 
-**Only continue when complete this step:** https://help.github.com/en/articles/testing-your-ssh-connection 
+**Only continue when complete this step:** https://help.github.com/en/articles/testing-your-ssh-connection
 
 Supported OS:
 
@@ -185,5 +185,6 @@ ToDo List:
 
 - [ ] Support mobile development
 - [ ] Support pulling microservice
+- [ ] Add eh-cli
 - [ ] Add Prezto / Oh-my-zsh as default
 - [ ] ...
