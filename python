@@ -1,0 +1,52 @@
+# Splitted out for optional execution
+
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+  brew bundle --***REMOVED***le=- <<***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+  ***REMOVED***
+  append_to_zshrc 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; ***REMOVED***'
+  ***REMOVED***
+  append_to_zshrc 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; ***REMOVED***'
+
+  export LDFLAGS="${LDFLAGS***REMOVED*** -L/usr/local/opt/zlib/lib"
+  export CPPFLAGS="${CPPFLAGS***REMOVED*** -I/usr/local/opt/zlib/include"
+  export PKG_CONFIG_PATH="${PKG_CONFIG_PATH***REMOVED*** /usr/local/opt/zlib/lib/pkgcon***REMOVED***g"
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+  brew bundle --***REMOVED***le=- <<***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+    append_to_shell_***REMOVED***le 'export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3'
+    append_to_shell_***REMOVED***le 'export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv'
+    append_to_shell_***REMOVED***le 'source /usr/local/bin/virtualenvwrapper.sh'
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
