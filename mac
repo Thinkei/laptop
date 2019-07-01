@@ -1,0 +1,353 @@
+#!/bin/sh
+
+# Be prepared to turn your laptop (or desktop, no haters here)
+# into an awesome development machine.
+
+fancy_echo() {
+  local fmt="$1"; shift
+
+  # shellcheck disable=SC2059
+  printf "\\n$fmt\\n" "$@"
+}
+
+append_to_file() {
+  # shellcheck disable=SC2039
+  local file="$1"
+  # shellcheck disable=SC2039
+  local text="$2"
+
+  if [ "$file" = "$HOME/.zshrc" ]; then
+    if [ -w "$HOME/.zshrc.local" ]; then
+      file="$HOME/.zshrc.local"
+    else
+      file="$HOME/.zshrc"
+    fi
+  fi
+
+  if ! grep -qs "^$text$" "$file"; then
+    printf "\n%s\n" "$text" >> "$file"
+  fi
+}
+
+append_to_shell_file() {
+  append_to_file "$shell_file" "$1"
+}
+
+append_to_zshrc() {
+  local text="$1" zshrc
+  local skip_new_line="${2:-0}"
+
+  if [ -w "$HOME/.zshrc.local" ]; then
+    zshrc="$HOME/.zshrc.local"
+  else
+    zshrc="$HOME/.zshrc"
+  fi
+
+  if ! grep -Fqs "$text" "$zshrc"; then
+    if [ "$skip_new_line" -eq 1 ]; then
+      printf "%s\\n" "$text" >> "$zshrc"
+    else
+      printf "\\n%s\\n" "$text" >> "$zshrc"
+    fi
+  fi
+}
+
+brew_is_installed() {
+  brew list -1 | grep -Fqx "$1"
+}
+
+tap_is_installed() {
+  brew tap -1 | grep -Fqx "$1"
+}
+
+app_is_installed() {
+  # shellcheck disable=SC2039
+  local app_name
+  app_name=$(echo "$1" | cut -d'-' -f1)
+  find /Applications -iname "$app_name*" -maxdepth 1 | grep -v -q ''
+}
+
+# shellcheck disable=SC2154
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+
+set -e
+
+if [ ! -d "$HOME/.bin/" ]; then
+  mkdir "$HOME/.bin"
+fi
+
+if [ ! -f "$HOME/.zshrc" ]; then
+  touch "$HOME/.zshrc"
+fi
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
+
+HOMEBREW_PREFIX="/usr/local"
+
+if [ -d "$HOMEBREW_PREFIX" ]; then
+  if ! [ -r "$HOMEBREW_PREFIX" ]; then
+    sudo chown -R "$LOGNAME:admin" /usr/local
+  fi
+else
+  sudo mkdir "$HOMEBREW_PREFIX"
+  sudo chflags norestricted "$HOMEBREW_PREFIX"
+  sudo chown -R "$LOGNAME:admin" "$HOMEBREW_PREFIX"
+fi
+
+update_shell() {
+  local shell_path;
+  shell_path="$(command -v zsh)"
+
+  fancy_echo "Changing your shell to zsh ..."
+  if ! grep "$shell_path" /etc/shells > /dev/null 2>&1 ; then
+    fancy_echo "Adding '$shell_path' to /etc/shells"
+    sudo sh -c "echo $shell_path >> /etc/shells"
+  fi
+  sudo chsh -s "$shell_path" "$USER"
+}
+
+case "$SHELL" in
+  */zsh)
+    if [ "$(command -v zsh)" != '/usr/local/bin/zsh' ] ; then
+      update_shell
+    fi
+    ;;
+  *)
+    update_shell
+    ;;
+esac
+
+if ! command -v brew >/dev/null; then
+  fancy_echo "Installing Homebrew ..."
+    curl -fsS \
+      'https://raw.githubusercontent.com/Homebrew/install/master/install' | ruby
+
+    append_to_zshrc '# recommended by brew doctor'
+
+    # shellcheck disable=SC2016
+    append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+
+    export PATH="/usr/local/bin:$PATH"
+fi
+
+if brew list | grep -Fq brew-cask; then
+  fancy_echo "Uninstalling old Homebrew-Cask ..."
+  brew uninstall --force brew-cask
+fi
+
+fancy_echo "Updating Homebrew formulae ..."
+brew update --force # https://github.com/Homebrew/brew/issues/1151
+brew bundle --file=- <<EOF
+tap "thoughtbot/formulae"
+tap "homebrew/services"
+tap "universal-ctags/universal-ctags"
+tap "caskroom/cask"
+tap "heroku/brew"
+
+# Unix
+brew "universal-ctags", args: ["HEAD"]
+brew "zlib"
+brew "git"
+brew "openssl"
+brew "rcm"
+brew "watchman"
+brew "zsh"
+
+# Heroku
+brew "heroku/brew/heroku"
+
+# GitHub
+brew "hub"
+
+# Image manipulation
+brew "imagemagick@6"
+
+# Programming language prerequisites and package managers
+brew "libyaml" # shosuld come after openssl
+brew "coreutils"
+cask "gpg-suite"
+
+# Databases
+brew "postgres", restart_service: :changed
+brew "redis", restart_service: :changed
+
+# Ruby version manager
+brew 'rbenv'
+
+# Docker
+cask 'docker'
+EOF
+
+fancy_echo "Update heroku binary ..."
+brew link --force imagemagick@6
+append_to_zshrc 'export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"'
+
+fancy_echo "Update imagemagick binary ..."
+brew unlink heroku
+brew link --force heroku
+
+fancy_echo 'Checking on Python installation...'
+
+if ! brew_is_installed "python3"; then
+  brew bundle --file=- <<EOF
+  brew 'pyenv'
+  brew 'pyenv-virtualenv'
+  brew 'pyenv-virtualenvwrapper'
+EOF
+  # shellcheck disable=SC2016
+  append_to_zshrc 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi'
+  # shellcheck disable=SC2016
+  append_to_zshrc 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi'
+
+  export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"
+  export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/zlib/include"
+  export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"
+
+  # pyenv currently doesn't have a convenience version to use, e.g., "latest",
+  # so we check for the latest version against Homebrew instead.
+  latest_python_3="$(brew info python3 | grep -E -o "3\.\d+\.\d+" | head -1)"
+
+  if ! pyenv versions | ag "$latest_python_3" > /dev/null; then
+    pyenv install "$latest_python_3"
+    pyenv global "$latest_python_3"
+    pyenv rehash
+  fi
+else
+  brew bundle --file=- <<EOF
+  brew 'python3'
+EOF
+fi
+
+if ! brew_is_installed "pyenv-virtualenvwrapper"; then
+  if ! pip3 list | ag "virtualenvwrapper" > /dev/null; then
+    fancy_echo 'Installing virtualenvwrapper...'
+    pip3 install virtualenvwrapper
+    append_to_shell_file 'export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3'
+    append_to_shell_file 'export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv'
+    append_to_shell_file 'source /usr/local/bin/virtualenvwrapper.sh'
+  fi
+fi
+
+fancy_echo '...Finished Python installation checks.'
+
+
+fancy_echo 'Checking on Ruby installation...'
+
+append_to_file "$HOME/.gemrc" 'gem: --no-document'
+
+if ! rbenv versions | grep -q 2.4.6; then
+  eval "$(rbenv init -)"
+  rbenv install "2.4.6"
+  rbenv global "2.4.6"
+  append_to_zshrc 'eval "$(rbenv init -)"'
+  eval "$(rbenv init -)"
+  rbenv rehash
+fi
+
+fancy_echo 'Updating Rubygems...'
+gem update --system
+
+if ! gem list bundler | grep "1.17.3"; then
+  fancy_echo "Installing Bundler ..."
+  gem install bundler --version 1.17.3
+fi
+
+fancy_echo "Configuring Bundler ..."
+number_of_cores=$(sysctl -n hw.ncpu)
+bundle config --global jobs $((number_of_cores - 1))
+
+fancy_echo '...Finished Ruby installation checks.'
+
+
+
+if command -v nvm > /dev/null; then
+  fancy_echo 'Installing nvm and correct Node.js and npm...'
+  append_to_zshrc "export NVM_LAZY_LOAD=true"
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  set +e
+
+  nvm install 10.15.0
+
+  if ! command -v yarn > /dev/null; then
+    fancy_echo "Installing yarn ..."
+
+    npm remove -g yarn
+    npm install -g yarn@1.10.1
+
+    yarn config set registry https://registry.npmjs.org/
+
+    fancy_echo "Finished yarn install..."
+  fi
+
+  set -e
+else
+  fancy_echo '...Skipped duplicate nvm installation'
+fi
+
+fancy_echo 'Enhance nvm setup ...'
+
+if [ ! -d "$HOME/.zsh/.zsh-nvm" ]; then
+  git clone https://github.com/lukechilds/zsh-nvm.git "$HOME/.zsh/.zsh-nvm"
+  append_to_zshrc "source ~/.zsh-nvm/zsh-nvm.plugin.zsh"
+fi
+
+if [ ! -d "$HOME/works" ]; then
+  fancy_echo "Setting up working folder..."
+  mkdir "$HOME/works"
+fi
+
+append_to_zshrc 'export EH_NPM_TOKEN={REPLACE THIS WITH REAL KEY}'
+append_to_zshrc 'export BUNDLE_GEM__FURY__IO={REPLACE THIS WITH REAL KEY}'
+
+if [ ! -d "$HOME/works/employment-hero" ]; then
+  fancy_echo "Setting up main app ..."
+
+  git clone git@github.com:Thinkei/employment-hero "$HOME/works/employment-hero"
+  cd "$HOME/works/employment-hero"
+  export EH_NPM_TOKEN={REPLACE THIS WITH REAL KEY}
+  export BUNDLE_GEM__FURY__IO={REPLACE THIS WITH REAL KEY}
+  bundle
+
+  cp config/database.yml.sample config/database.yml
+  cp config/application.yml.example config/application.yml
+  rake db:create
+
+  fancy_echo "Preparing sandbox db for main app ..."
+  mkdir "$HOME/works/db-backups"
+  curl 'https://raw.githubusercontent.com/Thinkei/multiple-sandbox-script/master/employment_hero_standard.dump?token=ADRV2IHWWXCZOC6QZWY6YYC46YNBI' --output "$HOME/works/db-backups/eh_hero_standard.dump"
+  psql -d employmenthero_development < $HOME/works/db-backups/eh_hero_standard.dump
+
+  fancy_echo "Finished main app setting ..."
+fi
+
+if [ ! -d "$HOME/works/frontend-core" ]; then
+  fancy_echo "Setting up frontend core ..."
+
+  git clone git@github.com:Thinkei/frontend-core "$HOME/works/frontend-core"
+  cd "$HOME/works/frontend-core"
+  yarn
+
+  fancy_echo "Finished frontend core setting ..."
+fi
+
+if [ ! -d "$HOME/works/auth" ]; then
+  fancy_echo "Setting up auth service ..."
+
+  git clone git@github.com:Thinkei/auth "$HOME/works/auth"
+  cd "$HOME/works/auth"
+  cp docker-compose.yml.example docker-compose.yml
+
+  fancy_echo "Finished auth service setting ..."
+fi
+
+## Self Customization
+if [ -f "$HOME/.laptop.local" ]; then
+  fancy_echo "Running your customizations from ~/.laptop.local ..."
+  # shellcheck disable=SC1090
+  . "$HOME/.laptop.local"
+fi
+
+fancy_echo 'All done!'

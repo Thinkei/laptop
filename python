@@ -1,52 +1,52 @@
 # Splitted out for optional execution
 
-***REMOVED***
-***REMOVED***
+fancy_echo() {
+  local fmt="$1"; shift
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  # shellcheck disable=SC2059
+  printf "\\n$fmt\\n" "$@"
+}
 
-***REMOVED***
+fancy_echo 'Checking on Python installation...'
 
-***REMOVED***
-  brew bundle --***REMOVED***le=- <<***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-  ***REMOVED***
-  append_to_zshrc 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; ***REMOVED***'
-  ***REMOVED***
-  append_to_zshrc 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; ***REMOVED***'
+if ! brew_is_installed "python3"; then
+  brew bundle --file=- <<EOF
+  brew 'pyenv'
+  brew 'pyenv-virtualenv'
+  brew 'pyenv-virtualenvwrapper'
+EOF
+  # shellcheck disable=SC2016
+  append_to_zshrc 'if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi'
+  # shellcheck disable=SC2016
+  append_to_zshrc 'if which pyenv-virtualenv-init > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi'
 
-  export LDFLAGS="${LDFLAGS***REMOVED*** -L/usr/local/opt/zlib/lib"
-  export CPPFLAGS="${CPPFLAGS***REMOVED*** -I/usr/local/opt/zlib/include"
-  export PKG_CONFIG_PATH="${PKG_CONFIG_PATH***REMOVED*** /usr/local/opt/zlib/lib/pkgcon***REMOVED***g"
+  export LDFLAGS="${LDFLAGS} -L/usr/local/opt/zlib/lib"
+  export CPPFLAGS="${CPPFLAGS} -I/usr/local/opt/zlib/include"
+  export PKG_CONFIG_PATH="${PKG_CONFIG_PATH} /usr/local/opt/zlib/lib/pkgconfig"
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  # pyenv currently doesn't have a convenience version to use, e.g., "latest",
+  # so we check for the latest version against Homebrew instead.
+  latest_python_3="$(brew info python3 | grep -E -o "3\.\d+\.\d+" | head -1)"
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-  brew bundle --***REMOVED***le=- <<***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+  if ! pyenv versions | ag "$latest_python_3" > /dev/null; then
+    pyenv install "$latest_python_3"
+    pyenv global "$latest_python_3"
+    pyenv rehash
+  fi
+else
+  brew bundle --file=- <<EOF
+  brew 'python3'
+EOF
+fi
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-    append_to_shell_***REMOVED***le 'export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3'
-    append_to_shell_***REMOVED***le 'export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv'
-    append_to_shell_***REMOVED***le 'source /usr/local/bin/virtualenvwrapper.sh'
-***REMOVED***
-***REMOVED***
+if ! brew_is_installed "pyenv-virtualenvwrapper"; then
+  if ! pip3 list | ag "virtualenvwrapper" > /dev/null; then
+    fancy_echo 'Installing virtualenvwrapper...'
+    pip3 install virtualenvwrapper
+    append_to_shell_file 'export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python3'
+    append_to_shell_file 'export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv'
+    append_to_shell_file 'source /usr/local/bin/virtualenvwrapper.sh'
+  fi
+fi
 
-***REMOVED***
+fancy_echo '...Finished Python installation checks.'

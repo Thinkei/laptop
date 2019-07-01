@@ -55,7 +55,7 @@ Your last Laptop run will be saved to `~/laptop.log`.
 Read through it to see if you can debug the issue yourself.
 If not, copy the lines where the script failed into a
 [new GitHub Issue](https://github.com/Thinkei/eh-starter-kit/issues/new) for us.
-Or, attach the whole log ***REMOVED***le as an attachment.
+Or, attach the whole log file as an attachment.
 
 What it sets up
 ---------------
@@ -68,11 +68,11 @@ macOS tools:
 
 Unix tools:
 
-* [Exuberant Ctags] for indexing ***REMOVED***les for vim tab completion
+* [Exuberant Ctags] for indexing files for vim tab completion
 * [Git] for version control
 * [OpenSSL] for Transport Layer Security (TLS)
-* [RCM] for managing company and personal dot***REMOVED***les
-* [Watchman] for watching for ***REMOVED***lesystem events
+* [RCM] for managing company and personal dotfiles
+* [Watchman] for watching for filesystem events
 * [Zsh] as your shell
 
 [Exuberant Ctags]: http://ctags.sourceforge.net/
@@ -99,7 +99,7 @@ Image tools:
 
 * [ImageMagick] for cropping and resizing images
 
-Programming languages, package managers, and con***REMOVED***guration:
+Programming languages, package managers, and configuration:
 
 * [Rbenv] for managing ruby versions
 * [Bundler] for managing Ruby libraries
@@ -135,39 +135,39 @@ Put your customizations there.
 For example:
 
 ```sh
-***REMOVED***
+#!/bin/sh
 
-brew bundle --***REMOVED***le=- <<***REMOVED***
+brew bundle --file=- <<EOF
 brew "Caskroom/cask/dockertoolbox"
 brew "go"
 brew "ngrok"
 brew "watch"
-***REMOVED***
+EOF
 
 default_docker_machine() {
   docker-machine ls | grep -Fq "default"
-***REMOVED***
+}
 
 if ! default_docker_machine; then
   docker-machine create --driver virtualbox default
-***REMOVED***
+fi
 
 default_docker_machine_running() {
   default_docker_machine | grep -Fq "Running"
-***REMOVED***
+}
 
 if ! default_docker_machine_running; then
   docker-machine start default
-***REMOVED***
+fi
 
 fancy_echo "Cleaning up old Homebrew formulae ..."
 brew cleanup
 brew cask cleanup
 
 if [ -r "$HOME/.rcrc" ]; then
-  fancy_echo "Updating dot***REMOVED***les ..."
+  fancy_echo "Updating dotfiles ..."
   rcup
-***REMOVED***
+fi
 ```
 
 Write your customizations such that they can be run safely more than once.
